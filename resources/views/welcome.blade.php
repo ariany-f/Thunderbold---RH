@@ -833,7 +833,7 @@
 <body class="antialiased">
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-        <img src="{{ asset('/storage/skills/logo-transparent.png') }}" alt="Logo" class="h-10">
+        <img src="{{ asset('/images/logo-transparent.png') }}" alt="Logo" class="h-10">
 
     </div>
 </body>
