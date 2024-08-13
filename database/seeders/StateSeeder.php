@@ -552,7 +552,6 @@ class StateSeeder extends Seeder
             array('name' => "Rondonia", 'country_id' => 30),
             array('name' => "Roraima", 'country_id' => 30),
             array('name' => "Santa Catarina", 'country_id' => 30),
-            array('name' => "Sao Paulo", 'country_id' => 30),
             array('name' => "Sergipe", 'country_id' => 30),
             array('name' => "Tocantins", 'country_id' => 30),
             array('name' => "British Indian Ocean Territory", 'country_id' => 31),

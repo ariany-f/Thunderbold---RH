@@ -107,6 +107,11 @@ class EmployeeResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
+                        Forms\Components\Select::make('team_id')
+                            ->relationship(name: 'team', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
                     ])->columns(2),
                 Forms\Components\Section::make('User Name')
                     ->description('Put the user name details in.')
@@ -164,6 +169,9 @@ class EmployeeResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('zip_code')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('team.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->date()
@@ -188,6 +196,12 @@ class EmployeeResource extends Resource
                     ->preload()
                     ->label('Filter by Department')
                     ->indicator('Department'),
+                SelectFilter::make('Team')
+                    ->relationship('Team', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('Filter by Team')
+                    ->indicator('Team'),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from'),
@@ -251,6 +265,7 @@ class EmployeeResource extends Resource
                             'city.name'
                         ),
                         TextEntry::make('department.name'),
+                        TextEntry::make('team.name'),
                     ])->columns(2),
                 Section::make('Name')
                     ->schema([

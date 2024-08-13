@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
+use App\Filament\Resources\DepartmentResource\RelationManagers\EmployeesRelationManager;
 use App\Models\Department;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +13,9 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +54,11 @@ class DepartmentResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\Select::make('team_id')
+                            ->relationship(name: 'team', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
                     ])
             ]);
     }
@@ -61,6 +70,8 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('employees_count')->counts('employees'),
+                Tables\Columns\TextColumn::make('team.name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -71,7 +82,12 @@ class DepartmentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('Team')
+                    ->relationship('Team', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('Filter by Team')
+                    ->indicator('Team'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -94,6 +110,7 @@ class DepartmentResource extends Resource
                 Section::make('Department Info')
                     ->schema([
                         TextEntry::make('name'),
+                        TextEntry::make('team.name'),
                         TextEntry::make('employees_count')
                             ->state(function (Model $record): int {
                                 return $record->employees()->count();
@@ -105,7 +122,7 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            EmployeesRelationManager::class
         ];
     }
 
