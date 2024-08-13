@@ -8,6 +8,7 @@ use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
+        'employee_id',
         'is_admin'
     ];
 
@@ -54,6 +56,11 @@ class User extends Authenticatable implements HasTenants
     public function getTenants(Panel $panel): Collection
     {
         return $this->teams;
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     public function teams(): BelongsToMany

@@ -66,7 +66,7 @@ class EmployeesRelationManager extends RelationManager
                         Forms\Components\TextInput::make('last_name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('middle_name')
+                        Forms\Components\TextInput::make('email')
                             ->required()
                             ->maxLength(255),
                     ])->columns(3),
@@ -104,7 +104,8 @@ class EmployeesRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('middle_name')
+                Tables\Columns\TextColumn::make('email')
+                    ->email()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('address')

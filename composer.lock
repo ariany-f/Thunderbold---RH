@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c993c21facb36e570a2507e9c2ddffd",
+    "content-hash": "80fa98b800afe498fe5b777070972ea1",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -1299,42 +1299,6 @@
                 "source": "https://github.com/filamentphp/filament"
             },
             "time": "2023-08-31T11:14:40+00:00"
-        },
-        {
-            "name": "filament/spark-billing-provider",
-            "version": "v3.0.39",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filamentphp/spark-billing-provider.git",
-                "reference": "97e2160476c74a18a5f19a84d213f9f7138e4ea0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/spark-billing-provider/zipball/97e2160476c74a18a5f19a84d213f9f7138e4ea0",
-                "reference": "97e2160476c74a18a5f19a84d213f9f7138e4ea0",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "self.version",
-                "php": "^8.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Filament\\Billing\\Providers\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Filament support for Laravel Spark.",
-            "homepage": "https://github.com/filamentphp/filament",
-            "support": {
-                "issues": "https://github.com/filamentphp/filament/issues",
-                "source": "https://github.com/filamentphp/filament"
-            },
-            "time": "2023-08-21T09:36:35+00:00"
         },
         {
             "name": "filament/support",

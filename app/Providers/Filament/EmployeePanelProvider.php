@@ -2,10 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\App\Pages\Tenancy\EditTeamProfile;
-use App\Filament\App\Pages\Tenancy\RegisterTeam;
 use App\Models\Team;
-use App\Http\Middleware\CustomAuthenticate;
+use App\Http\Middleware\EnsureIsEmployee;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
@@ -22,40 +20,41 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AppPanelProvider extends PanelProvider
+class EmployeePanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('app')
-            ->path('app')
-            ->login()
-            ->registration()
+            ->id('employee')
+            ->path('employee')
             ->profile()
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Admin')
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/admin')
-                    ->visible(fn (): bool => auth()->user()->is_admin)
-            ])
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Slate,
                 'info' => Color::Blue,
+                'primary' => Color::Indigo,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
-                'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
-            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
+            ->userMenuItems([
+                // No menu items here to ensure a clean dashboard
+            ])
+            ->font('Inter')
+            ->navigationGroups([
+                // Optionally add navigation groups, but keep them empty if no items should be shown
+                // 'Employee Tools',
+                // 'Reports',
+            ])
+            ->favicon(asset('images/favicon.ico'))
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources\\Employee')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages\\Employee')
             ->pages([
-                Pages\Dashboard::class,
+                Pages\Dashboard::class, // Ajuste ou adicione outras páginas específicas para employees aqui
             ])
-            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets\\Employee')
             ->widgets([
                 Widgets\AccountWidget::class,
+                // Adicione outros widgets específicos para employees aqui
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -67,12 +66,7 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                CustomAuthenticate::class,
-            ])
-            ->tenant(Team::class, ownershipRelationship: 'team', slugAttribute: 'slug')
-            ->tenantRegistration(RegisterTeam::class)
-            ->tenantProfile(EditTeamProfile::class);
+                EnsureIsEmployee::class // Middleware específico para employees
+            ]);
     }
 }

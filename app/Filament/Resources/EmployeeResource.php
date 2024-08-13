@@ -45,7 +45,7 @@ class EmployeeResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['first_name', 'last_name', 'middle_name'];
+        return ['first_name', 'last_name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -122,7 +122,8 @@ class EmployeeResource extends Resource
                         Forms\Components\TextInput::make('last_name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('middle_name')
+                        Forms\Components\TextInput::make('email')
+                            ->email()
                             ->required()
                             ->maxLength(255),
                     ])->columns(3),
@@ -162,9 +163,6 @@ class EmployeeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('middle_name')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -271,12 +269,13 @@ class EmployeeResource extends Resource
                     ->schema([
                         TextEntry::make('first_name'),
                         TextEntry::make(
-                            'middle_name'
-                        ),
-                        TextEntry::make(
                             'last_name'
                         ),
                     ])->columns(3),
+                TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->label('E-mail'),
                 Section::make('Address')
                     ->schema([
                         TextEntry::make('address'),
