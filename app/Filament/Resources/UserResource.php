@@ -74,6 +74,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\BadgeColumn::make('tipo')
+                    ->label('Tipo')
+                    ->color(fn ($record) => $record->employee_id ? 'success' : 'secondary') // Define a cor do badge
+                    ->formatStateUsing(fn ($record) => $record->employee_id ? 'Funcionário' : 'Usuário do Sistema'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
