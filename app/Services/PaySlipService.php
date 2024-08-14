@@ -20,7 +20,7 @@ class PaySlipService
         ];
 
         // Gere o PDF com os dados
-        $pdf = Pdf::loadView('payslips.pdf', $data);
+        $pdf = Pdf::loadView('payslips.pdf', $data)->setPaper('a4', 'landscape');
 
         return $pdf->download('payslip_' . $paySlipId . '.pdf');
     }

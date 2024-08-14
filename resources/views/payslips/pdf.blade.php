@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <title>Folha de Pagamento</title>
     <style>
+        @page {
+            size: A4 landscape; /* Define o tamanho e a orientação da página */
+            margin: 10mm 20mm 20mm 20mm; /* Ajusta as margens: topo, direita, baixo, esquerda */
+        }
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
         }
         .container {
-            max-width: 800px;
+            width: 100%;
             margin: 0 auto;
+            padding: 20px;
         }
         h1 {
             text-align: center;
