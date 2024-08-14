@@ -45,7 +45,7 @@ class PaySlipResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Pay Slip Details')
+                Forms\Components\Section::make(__('custom.payslip.details'))
                     ->schema([
                         Forms\Components\Select::make('employee_id')
                             ->relationship(
@@ -53,6 +53,7 @@ class PaySlipResource extends Resource
                                 titleAttribute: 'first_name',
                                 modifyQueryUsing: fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant())
                             )
+                            ->label(ucwords(trans_choice('custom.employee.label', 1)))
                             ->searchable()
                             ->preload()
                             ->required(),
@@ -99,7 +100,7 @@ class PaySlipResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee_name')
-                    ->label('Employee')
+                    ->label(ucwords(trans_choice('custom.employee.label', 1)))
                     ->getStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}"),
                 Tables\Columns\BadgeColumn::make('reference')
                     ->label('Ref.')

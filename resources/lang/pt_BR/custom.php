@@ -19,6 +19,7 @@ return [
     ],
     'payslip' => [
         'label' => 'holerite|holerites',
+        'details' => 'Detalhes do Holerite',
     ],
     'department' => [
         'label' => 'departamento|departamentos',
