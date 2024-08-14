@@ -71,13 +71,14 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\BadgeColumn::make('tipo')
                     ->label('Tipo')
-                    ->color(fn ($record) => $record->employee_id ? 'success' : 'secondary') // Define a cor do badge
-                    ->formatStateUsing(fn ($record) => $record->employee_id ? 'Funcionário' : 'Usuário do Sistema'),
+                    ->color(fn ($record) => $record->employee_id ? 'warning' : 'primary')
+                    ->getStateUsing(fn ($record) =>  $record->employee_id ? ucwords(trans_choice('custom.employee.label', 1)) : 'Usuário do sistema'),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
