@@ -34,9 +34,22 @@ class EmployeeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationGroup = 'Employee Management';
-
     protected static ?string $recordTitleAttribute = 'first_name';
+
+    public static function getNavigationGroup(): string
+    {
+        return ucwords(trans_choice('custom.employee.management', 2));
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.employee.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.employee.label', 1);
+    }
 
     public static function getGlobalSearchResultTitle(Model $record): string
     {
@@ -192,7 +205,7 @@ class EmployeeResource extends Resource
                     ->relationship('department', 'name')
                     ->searchable()
                     ->preload()
-                    ->label('Filter by Department')
+                    ->label(__('custom.department.filter'))
                     ->indicator('Department'),
                 SelectFilter::make('Team')
                     ->relationship('Team', 'name')

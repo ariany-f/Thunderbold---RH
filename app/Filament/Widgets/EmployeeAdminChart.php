@@ -9,7 +9,10 @@ use Flowframe\Trend\TrendValue;
 
 class EmployeeAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Employees Chart';
+    public function getHeading(): string
+    {
+        return ucwords(trans_choice('custom.employee.chart', 2));
+    }
 
     protected static ?int $sort = 3;
 
@@ -28,7 +31,7 @@ class EmployeeAdminChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Employees',
+                    'label' => trans_choice('custom.employee.label', 2),
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],

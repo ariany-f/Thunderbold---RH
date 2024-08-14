@@ -23,6 +23,16 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.department.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.department.label', 1);
+    }
+
     public static function form(Form $form): Form
     {
         return $form

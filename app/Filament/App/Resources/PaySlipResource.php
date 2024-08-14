@@ -29,19 +29,21 @@ class PaySlipResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationLabel = null;
-
-    protected static ?string $modelLabel = null;
-
-    protected static ?string $navigationGroup = 'Employees';
-
     protected static ?int $navigationSort = 2;
 
-    public static function boot()
+    public static function getNavigationLabel(): string
     {
-        parent::boot();
-        static::$navigationLabel = __('payslips');
-        static::$modelLabel = __('payslips');
+        return ucwords(trans_choice('custom.payslip.label', 2));
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return ucwords(trans_choice('custom.employee.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.payslip.label', 1);
     }
 
     // Use the relationship to determine the tenant context

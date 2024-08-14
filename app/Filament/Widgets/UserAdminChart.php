@@ -9,9 +9,12 @@ use Flowframe\Trend\TrendValue;
 
 class UserAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Users Chart';
-
     protected static ?int $sort = 2;
+
+    public function getHeading(): string
+    {
+        return ucwords(trans_choice('custom.user.chart', 2));
+    }
 
     protected function getData(): array
     {

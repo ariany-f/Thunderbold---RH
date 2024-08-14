@@ -27,10 +27,23 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Employees';
     
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationGroup(): string
+    {
+        return ucwords(trans_choice('custom.employee.label', 2));
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.employee.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.employee.label', 1);
+    }
 
     public static function form(Form $form): Form
     {

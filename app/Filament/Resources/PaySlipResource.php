@@ -23,22 +23,24 @@ class PaySlipResource extends Resource
     protected static ?string $model = PaySlip::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    
-    protected static ?string $navigationLabel = null;
-
-    protected static ?string $modelLabel = null;
-
-    protected static ?string $navigationGroup = 'Employee Management';
 
     protected static ?int $navigationSort = 2;
 
     protected static ?string $tenantOwnershipRelationshipName = 'employee';
 
-    public static function boot()
+    public static function getNavigationGroup(): string
     {
-        parent::boot();
-        static::$navigationLabel = __('payslips');
-        static::$modelLabel = __('payslips');
+        return ucwords(trans_choice('custom.employee.management', 2));
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.payslip.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.payslip.label', 1);
     }
 
     public static function getNavigationBadge(): ?string

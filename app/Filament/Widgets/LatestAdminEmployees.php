@@ -9,9 +9,13 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestAdminEmployees extends BaseWidget
 {
-
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';
+
+    public function getHeading(): string
+    {
+        return ucwords(__('custom.employee.latest.chart'));
+    }
     public function table(Table $table): Table
     {
         return $table

@@ -27,13 +27,22 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationLabel = 'Department';
-
-    protected static ?string $modelLabel = 'Department';
-
-    protected static ?string $navigationGroup = 'System Management';
-
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationGroup(): string
+    {
+        return trans_choice('custom.system.management', 1);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.department.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.department.label', 1);
+    }
 
     public static function getNavigationBadge(): ?string
     {

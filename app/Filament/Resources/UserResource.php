@@ -18,7 +18,21 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationGroup = 'User Management';
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.user.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.user.label', 1);
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return trans_choice('custom.user.management', 2);
+    }
 
     public static function getNavigationBadge(): ?string
     {

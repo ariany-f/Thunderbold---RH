@@ -23,13 +23,22 @@ class CityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?string $navigationLabel = 'City';
-
-    protected static ?string $modelLabel = 'City';
-
-    protected static ?string $navigationGroup = 'System Management';
-
     protected static ?int $navigationSort = 3;
+
+    public static function getNavigationGroup(): string
+    {
+        return trans_choice('custom.system.management', 1);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.city.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.city.label', 1);
+    }
 
     public static function form(Form $form): Form
     {

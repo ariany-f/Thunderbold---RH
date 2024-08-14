@@ -20,13 +20,22 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'System Management';
-
-    protected static ?string $navigationLabel = 'Team';
-
-    protected static ?string $modelLabel = 'Team';
-
     protected static ?int $navigationSort = 5;
+
+    public static function getNavigationLabel(): string
+    {
+        return ucwords(trans_choice('custom.team.label', 2));
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans_choice('custom.team.label', 1);
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return trans_choice('custom.system.management', 1);
+    }
 
     public static function getNavigationBadge(): ?string
     {
