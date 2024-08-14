@@ -7,6 +7,7 @@ use App\Filament\Resources\PaySlipResource\RelationManagers;
 use App\Models\PaySlip;
 use App\Models\Employee;
 use Filament\Forms;
+use Carbon\Carbon;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -69,9 +70,17 @@ class PaySlipResource extends Resource
                         Forms\Components\TextInput::make('reference')
                             ->required()
                             ->label('Ref.')
-                            ->placeholder('Mar/2024') // Placeholder com o formato desejado
-                            ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('M/Y')) // Formata a data para o formato desejado na exibição
-                            ->dehydrateStateUsing(fn ($state) => \Carbon\Carbon::createFromFormat('M/Y', $state)->format('Y-m-d')), // Armazena a data no formato padrão
+                            ->placeholder('Mar/2024')
+                            ->formatStateUsing(fn ($state) => $state) // Fornece a data como está
+                            ->dehydrateStateUsing(function ($state) {
+                                try {
+                                    $date = Carbon::createFromFormat('M/Y', $state, 'pt_BR');
+                                    return $date->format('Y-m-d'); // Converte para formato SQL padrão
+                                } catch (\Exception $e) {
+                                    // Se não conseguir converter, você pode querer lidar com isso aqui
+                                    return null;
+                                }
+                            }),
                         Forms\Components\Select::make('process')
                             ->required()
                             ->label('Process')
