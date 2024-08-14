@@ -20,6 +20,9 @@ class EditTeamProfile extends EditTenantProfile
                   ->schema([
                         TextInput::make('name'),
                         TextInput::make('slug'),
+                        TextInput::make('cnpj')
+                        ->label('CNPJ')
+                        ->disabled(), // Torna o campo somente leitura
                   ]);
       }
 }

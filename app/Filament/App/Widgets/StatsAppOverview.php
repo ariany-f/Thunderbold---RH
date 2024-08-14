@@ -5,6 +5,7 @@ namespace App\Filament\App\Widgets;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Team;
+use App\Models\PaySlip;
 use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

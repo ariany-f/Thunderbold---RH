@@ -272,10 +272,12 @@ class EmployeeResource extends Resource
                             'last_name'
                         ),
                     ])->columns(3),
-                TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->label('E-mail'),
+                Section::make('Email')
+                    ->schema([
+                        TextEntry::make(
+                            'email'
+                        ),
+                    ])->columns(1),
                 Section::make('Address')
                     ->schema([
                         TextEntry::make('address'),

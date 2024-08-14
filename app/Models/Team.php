@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug', 'cnpj'];
 
     public function employees(): HasMany
     {
@@ -27,4 +28,10 @@ class Team extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+     // Definição do relacionamento com PaySlip
+     public function paySlips(): HasManyThrough
+     {
+         return $this->hasManyThrough(PaySlip::class, Employee::class, 'team_id', 'employee_id');
+     }
 }

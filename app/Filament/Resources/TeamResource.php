@@ -47,6 +47,9 @@ class TeamResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
+                    Forms\Components\TextInput::make('cnpj')
+                        ->required()
+                        ->label('CNPJ'),
                 ])
             ]);
     }
@@ -58,6 +61,8 @@ class TeamResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                 ->sortable()
                 ->searchable(),
+                Tables\Columns\TextColumn::make('cnpj')
+                ->label('CNPJ'),
             ])
             ->filters([
                 //

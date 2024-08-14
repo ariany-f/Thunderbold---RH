@@ -46,7 +46,8 @@ class EmployeePanelProvider extends PanelProvider
                 // 'Reports',
             ])
             ->favicon(asset('images/favicon.ico'))
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources\\Employee')
+
+            ->discoverResources(in: app_path('Filament/Employee/Resources'), for: 'App\\Filament\\Employee\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages\\Employee')
             ->pages([
                 Pages\Dashboard::class, // Ajuste ou adicione outras páginas específicas para employees aqui

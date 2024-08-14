@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
@@ -39,6 +40,11 @@ class Employee extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }  
+    
+    public function paySlips(): hasMany
+    {
+        return $this->hasMany(PaySlip::class);
     }
 
     protected static function boot()
