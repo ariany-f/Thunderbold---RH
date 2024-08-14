@@ -16,7 +16,7 @@ return [
         'email' => 'E-mail',
         'date_hired' => 'Data de Contratação',
         'date_of_birth' => 'Data de Nascimento',
-        'earnings' => 'Ganhos (R$)',
+        'earnings' => 'Proventos (R$)',
         'deductions' => 'Descontos (R$)',
         'net' => 'Líquido (R$)',
     ],
