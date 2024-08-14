@@ -140,6 +140,18 @@ class EmployeeResource extends Resource
                             ->required()
                             ->maxLength(255),
                     ])->columns(3),
+                Forms\Components\Section::make('Account Details')  // Nova seção para detalhes da conta
+                    ->schema([
+                        Forms\Components\TextInput::make('bank')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('agency')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('account')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('salary_base')
+                            ->numeric()
+                            ->maxLength(10),
+                    ])->columns(2),
                 Forms\Components\Section::make('User address')
                     ->schema([
                         Forms\Components\TextInput::make('address')

@@ -69,10 +69,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>341</td>
-                    <td>3784</td>
-                    <td>29724</td>
-                    <td>R$ 1.000,00</td>
+                    <td>{{ $employee->bank }}</td>
+                    <td>{{ $employee->agency }}</td>
+                    <td>{{ $employee->account }}</td>
+                    <td>R$ {{ number_format($employee->salary_base, 2, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
