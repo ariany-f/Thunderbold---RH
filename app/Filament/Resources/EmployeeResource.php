@@ -58,7 +58,7 @@ class EmployeeResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['first_name', 'last_name'];
+        return ['first_name', 'last_name', 'email'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -170,11 +170,14 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('country.name')
                     ->sortable()
+                    ->label(ucwords(trans_choice('custom.country.label', 1)))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable()
+                    ->label(ucwords(__('custom.fields.first_name')))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_name')
+                    ->label(ucwords(__('custom.fields.last_name')))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable()
@@ -183,12 +186,14 @@ class EmployeeResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('team.name')
+                    ->label(ucwords(trans_choice('custom.team.label', 1)))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date_hired')
+                    ->label(ucwords(__('custom.fields.date_hired')))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

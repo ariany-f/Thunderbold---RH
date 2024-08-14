@@ -10,6 +10,13 @@ return [
         'management' => 'Gerenciamento de Usuário|Gerenciamento de Usuários',
         'all_from_database' => 'Todos os usuários do banco de dados',
     ],
+    'fields' => [
+        'first_name' => 'Nome',
+        'last_name' => 'Sobrenome',
+        'email' => 'E-mail',
+        'date_hired' => 'Data de Contratação',
+        'date_of_birth' => 'Data de Nascimento',
+    ],
     'payslip' => [
         'label' => 'holerite|holerites',
     ],

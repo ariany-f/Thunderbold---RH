@@ -15,6 +15,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -97,12 +98,19 @@ class PaySlipResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.first_name')
-                    ->label('Employee'),
-                Tables\Columns\TextColumn::make('reference')
-                    ->label('Ref.'),
-                Tables\Columns\TextColumn::make('process')
-                    ->label('Process'),
+                Tables\Columns\TextColumn::make('employee_name')
+                    ->label('Employee')
+                    ->getStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}"),
+                Tables\Columns\BadgeColumn::make('reference')
+                    ->label('Ref.')
+                    ->colors([
+                        'primary', // Cor padrão para o badge
+                    ]),
+                Tables\Columns\BadgeColumn::make('process')
+                    ->label('Process')
+                    ->colors([
+                        'success', // Cor padrão para o badge
+                    ]),
                 Tables\Columns\TextColumn::make('earnings')
                     ->label('Earnings (R$)')
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.')),
@@ -130,6 +138,10 @@ class PaySlipResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Action::make('Download PDF')
+                ->label('PDF')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->url(fn($record) => route('payslips.downloadPdf', $record->id)), // Use a URL ao invés de redirecionamento
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
