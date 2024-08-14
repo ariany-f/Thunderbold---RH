@@ -16,6 +16,9 @@ return [
         'email' => 'E-mail',
         'date_hired' => 'Data de Contratação',
         'date_of_birth' => 'Data de Nascimento',
+        'earnings' => 'Ganhos (R$)',
+        'deductions' => 'Descontos (R$)',
+        'net' => 'Líquido (R$)',
     ],
     'payslip' => [
         'label' => 'holerite|holerites',

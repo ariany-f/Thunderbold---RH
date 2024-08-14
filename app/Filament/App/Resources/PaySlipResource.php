@@ -67,22 +67,32 @@ class PaySlipResource extends Resource
                             ->required(),
                         Forms\Components\TextInput::make('reference')
                             ->required()
-                            ->label('Ref.'),
-                        Forms\Components\TextInput::make('process')
+                            ->label('Ref.')
+                            ->placeholder('Mar/2024') // Placeholder com o formato desejado
+                            ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('M/Y')) // Formata a data para o formato desejado na exibição
+                            ->dehydrateStateUsing(fn ($state) => \Carbon\Carbon::createFromFormat('M/Y', $state)->format('Y-m-d')), // Armazena a data no formato padrão
+                        Forms\Components\Select::make('process')
                             ->required()
-                            ->label('Process'),
+                            ->label('Process')
+                            ->options([
+                                'FOLHA DE PAGAMENTO' => 'FOLHA DE PAGAMENTO',
+                                'DÉCIMO TERCEIRO' => 'DÉCIMO TERCEIRO',
+                                'FÉRIAS' => 'FÉRIAS',
+                                'ADIANTAMENTO' => 'ADIANTAMENTO',
+                                'RESCISÃO' => 'RESCISÃO',
+                            ]),
                         Forms\Components\TextInput::make('earnings')
                             ->required()
                             ->numeric()
-                            ->label('Earnings (R$)'),
+                            ->label('__('custom.fields.earnings')'),
                         Forms\Components\TextInput::make('deductions')
                             ->required()
                             ->numeric()
-                            ->label('Deductions (R$)'),
+                            ->label('__('custom.fields.deductions')'),
                         Forms\Components\TextInput::make('net')
                             ->required()
                             ->numeric()
-                            ->label('Net (R$)'),
+                            ->label('__('custom.fields.net')'),
                         Forms\Components\TextInput::make('inss_base')
                             ->required()
                             ->numeric()
@@ -121,13 +131,13 @@ class PaySlipResource extends Resource
                         'success', // Cor padrão para o badge
                     ]),
                 Tables\Columns\TextColumn::make('earnings')
-                    ->label('Earnings (R$)')
+                    ->label('__('custom.fields.earnings')')
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.')),
                 Tables\Columns\TextColumn::make('deductions')
-                    ->label('Deductions (R$)')
+                    ->label('__('custom.fields.deductions')')
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.')),
                 Tables\Columns\TextColumn::make('net')
-                    ->label('Net (R$)')
+                    ->label('__('custom.fields.net')')
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.')),
                 Tables\Columns\TextColumn::make('inss_base')
                     ->label('INSS Base (R$)')
@@ -175,13 +185,13 @@ class PaySlipResource extends Resource
                         TextEntry::make('process'),
                         TextEntry::make('earnings')
                             ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('Earnings (R$)'),
+                            ->label('__('custom.fields.earnings')'),
                         TextEntry::make('deductions')
                             ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('Deductions (R$)'),
+                            ->label('__('custom.fields.deductions')'),
                         TextEntry::make('net')
                             ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('Net (R$)'),
+                            ->label('__('custom.fields.net')'),
                         TextEntry::make('inss_base')
                             ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
                             ->label('INSS Base (R$)'),
