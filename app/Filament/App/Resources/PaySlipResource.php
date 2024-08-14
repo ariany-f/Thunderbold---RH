@@ -16,6 +16,7 @@ use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Lang;
 
 class PaySlipResource extends Resource
 {
@@ -52,6 +54,23 @@ class PaySlipResource extends Resource
 
     public static function form(Form $form): Form
     {
+        // Load month names from translations
+        $monthsInPortuguese = Lang::get('months');
+
+        // Generate month/year options in Portuguese
+        $monthYearOptions = [];
+        $now = Carbon::now();
+
+        for ($i = 0; $i < 12; $i++) {
+            $date = $now->subMonths($i);
+            $month = $monthsInPortuguese[$date->month];
+            $monthYear = "{$month}/{$date->year}";
+            $monthYearOptions[$monthYear] = $monthYear;
+        }
+
+        // Restore the $now object to its original state
+        $now = Carbon::now();
+
         return $form
             ->schema([
                 Forms\Components\Section::make(__('custom.payslip.details'))
@@ -66,20 +85,15 @@ class PaySlipResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
-                        Forms\Components\TextInput::make('reference')
-                            ->required()
+                        Forms\Components\Select::make('reference')
+                            ->required()  // Marca o campo como obrigatório
                             ->label('Ref.')
                             ->placeholder('Mar/2024')
-                            ->formatStateUsing(fn ($state) => $state) // Fornece a data como está
-                            ->dehydrateStateUsing(function ($state) {
-                                try {
-                                    $date = Carbon::createFromFormat('M/Y', $state, 'pt_BR');
-                                    return $date->format('Y-m-d'); // Converte para formato SQL padrão
-                                } catch (\Exception $e) {
-                                    // Se não conseguir converter, você pode querer lidar com isso aqui
-                                    return null;
-                                }
-                            }),
+                            ->options($monthYearOptions) // Define as opções para seleção
+                            ->searchable() // Permite a busca
+                            ->preload() // Carrega as opções antecipadamente
+                            ->formatStateUsing(fn ($state) => $state) // Exibe o valor como está
+                            ->dehydrateStateUsing(fn ($state) => $state), // Garante que o valor seja armazenado corretamente
                         Forms\Components\Select::make('process')
                             ->required()
                             ->label('Process')
