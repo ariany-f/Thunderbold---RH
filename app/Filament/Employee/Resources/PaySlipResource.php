@@ -27,12 +27,19 @@ class PaySlipResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     
-    protected static ?string $navigationLabel = 'Pay Slips';
+    protected static ?string $navigationLabel = null;
 
-    protected static ?string $modelLabel = 'Pay Slip';
+    protected static ?string $modelLabel = null;
 
     // Use the relationship to determine the tenant context
     protected static ?string $tenantOwnershipRelationshipName = 'employee';
+
+    public static function boot()
+    {
+        parent::boot();
+        static::$navigationLabel = __('payslips');
+        static::$modelLabel = __('payslips');
+    }
 
     public static function form(Form $form): Form
     {

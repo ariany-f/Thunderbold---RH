@@ -24,15 +24,22 @@ class PaySlipResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     
-    protected static ?string $navigationLabel = 'Pay Slips';
+    protected static ?string $navigationLabel = null;
 
-    protected static ?string $modelLabel = 'Pay Slip';
+    protected static ?string $modelLabel = null;
 
     protected static ?string $navigationGroup = 'Employee Management';
 
     protected static ?int $navigationSort = 2;
 
     protected static ?string $tenantOwnershipRelationshipName = 'employee';
+
+    public static function boot()
+    {
+        parent::boot();
+        static::$navigationLabel = __('payslips');
+        static::$modelLabel = __('payslips');
+    }
 
     public static function getNavigationBadge(): ?string
     {

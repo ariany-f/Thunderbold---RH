@@ -28,14 +28,21 @@ class PaySlipResource extends Resource
     protected static ?string $model = PaySlip::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    
-    protected static ?string $navigationLabel = 'Pay Slips';
 
-    protected static ?string $modelLabel = 'Pay Slip';
+    protected static ?string $navigationLabel = null;
+
+    protected static ?string $modelLabel = null;
 
     protected static ?string $navigationGroup = 'Employees';
 
     protected static ?int $navigationSort = 2;
+
+    public static function boot()
+    {
+        parent::boot();
+        static::$navigationLabel = __('payslips');
+        static::$modelLabel = __('payslips');
+    }
 
     // Use the relationship to determine the tenant context
     protected static ?string $tenantOwnershipRelationshipName = 'employee';
