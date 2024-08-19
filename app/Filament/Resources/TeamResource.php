@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\FileUpload;
 
 class TeamResource extends Resource
 {
@@ -59,6 +60,12 @@ class TeamResource extends Resource
                     Forms\Components\TextInput::make('cnpj')
                         ->required()
                         ->label('CNPJ'),
+                    FileUpload::make('logo')
+                        ->label('Logo')
+                        ->image() // Opcional: para permitir apenas imagens
+                        ->disk('public') // Ou outro disco onde você deseja armazenar as imagens
+                        ->directory('logos') // Diretório onde os logos serão armazenados
+                        ->columnSpan('full'),
                 ])
             ]);
     }

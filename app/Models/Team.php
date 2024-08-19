@@ -12,7 +12,7 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'cnpj'];
+    protected $fillable = ['name', 'slug', 'cnpj', 'logo', 'email'];
 
     public function employees(): HasMany
     {
