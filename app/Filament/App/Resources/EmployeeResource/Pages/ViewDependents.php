@@ -23,7 +23,7 @@ class ViewDependents extends ListRecords
             Actions\CreateAction::make()
                 ->url(fn () => route('filament.app.resources.dependents.create', [
                     'employee_id' => request()->route()->parameters()['record'],
-                    'tenant' => Filament::getTenant()->id,
+                    'tenant' => Filament::getTenant(),
                 ])),
         ];
     }
