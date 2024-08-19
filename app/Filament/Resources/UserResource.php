@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\FileUpload;
 
 class UserResource extends Resource
 {
@@ -60,6 +61,12 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
+                FileUpload::make('avatar')
+                    ->label('Avatar')
+                    ->image() // Opcional: para permitir apenas imagens
+                    ->disk('public') // Ou outro disco onde você deseja armazenar as imagens
+                    ->directory('avatar') // Diretório onde os logos serão armazenados
+                    ->columnSpan('full'),
             ]);
     }
 
