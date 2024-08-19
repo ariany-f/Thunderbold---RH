@@ -25,6 +25,7 @@ return [
         'address' => 'Endereço',
         'zip_code' => 'CEP',
         'relationship'  => 'Parentesco',
+        'password' => 'Senha',
     ],
     'payslip' => [
         'label' => 'holerite|holerites',
@@ -53,6 +54,10 @@ return [
     'team' => [
         'label' => 'empresa|empresas',
         'all_from_database' => 'Todas as empresas do banco de dados',
+    ],
+    'matrix' => [
+        'label' => 'matriz|matrizes',
+        'all_from_database' => 'Todas as matrizes do banco de dados',
     ],
     'city' => [
         'label' => 'cidade|cidades'

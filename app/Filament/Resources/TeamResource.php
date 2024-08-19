@@ -14,14 +14,16 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 
 class TeamResource extends Resource
 {
     protected static ?string $model = Team::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationLabel(): string
     {
@@ -60,6 +62,9 @@ class TeamResource extends Resource
                     Forms\Components\TextInput::make('cnpj')
                         ->required()
                         ->label('CNPJ'),
+                    Forms\Components\Select::make('matrix_id')
+                        ->label(ucwords(trans_choice('custom.matrix.label', 1)))
+                        ->relationship('matrix', 'name'),
                     FileUpload::make('logo')
                         ->label('Logo')
                         ->image() // Opcional: para permitir apenas imagens
@@ -74,11 +79,22 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('matrix_name')
+                ->label(ucwords(trans_choice('custom.matrix.label', 1)))
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->getStateUsing(fn ($record) => $record->matrix ? $record->matrix->name : '<span style="color: lightgrey">Sem matriz associada</span>')
+                ->formatStateUsing(function ($state) {
+                    if ($state) {
+                        return $state;
+                    }
+                })
+                ->html(),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('cnpj')
-                ->label('CNPJ'),
+                    ->label('CNPJ'),
             ])
             ->filters([
                 //

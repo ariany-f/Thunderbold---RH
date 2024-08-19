@@ -5,7 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Models\Team;
 use Filament\Forms;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,6 +16,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\MultiSelect;
+use Illuminate\Support\Collection;
 
 class UserResource extends Resource
 {
@@ -50,17 +56,46 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('custom.fields.first_name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('custom.fields.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
+                    ->label(__('custom.fields.password'))
                     ->password()
-                    ->required()
+                    ->required(fn (Get $get) => !$get('id'))
                     ->maxLength(255),
+                Forms\Components\Select::make('matrix_id')
+                    ->options(function () {
+                        return \App\Models\Matrix::all()->pluck('name', 'id')->toArray();
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->label(ucwords(trans_choice('custom.matrix.label', 1)))
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        if($state == null) 
+                        {
+                            $set('teams', []);
+                            return;
+                        }
+                        // Atualiza o campo de times baseado na matriz selecionada
+                        $teams = \App\Models\Team::where('matrix_id', $state)->pluck('id')->toArray();
+                        $set('teams', $teams);
+                    }),
+                Forms\Components\MultiSelect::make('teams')
+                    ->options(fn (Get $get): Collection => Team::query()
+                        ->where('matrix_id', $get('matrix_id'))
+                        ->pluck('name', 'id'))
+                    ->searchable()
+                    ->label(ucwords(trans_choice('custom.team.label', 2)))
+                    ->preload()
+                    ->live()
+                    ->required(),
                 FileUpload::make('avatar')
                     ->label('Avatar')
                     ->image() // Opcional: para permitir apenas imagens
