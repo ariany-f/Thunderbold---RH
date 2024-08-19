@@ -4,6 +4,7 @@ return [
     'welcome' => 'Bem-vindo ao nosso aplicativo!',
     'user' => [
         'label' => 'usuário|usuários',
+        'associateexisting' => 'Associar usuário existente',
         'chart' => 'Gráfico de Usuário|Gráfico de Usuários',
         'profile' => 'Perfil do Usuário',
         'settings' => 'Configurações',
@@ -11,6 +12,7 @@ return [
         'all_from_database' => 'Todos os usuários do banco de dados',
     ],
     'fields' => [
+        'name' => 'Nome',
         'first_name' => 'Nome',
         'last_name' => 'Sobrenome',
         'full_name' => 'Nome',
@@ -35,7 +37,6 @@ return [
         'label' => 'departamento|departamentos',
         'filter' => 'Filtrar por departamento'
     ],
-
     'dependent' => [
         'label' => 'dependente|dependentes',
         'labelof' => 'dependente de |dependentes de ',
@@ -52,6 +53,10 @@ return [
         ]
     ],
     'team' => [
+        'members' => [
+            'label' => 'membro|membros',
+        ],
+        'associateexisting' => 'Associar empresa existente',
         'label' => 'empresa|empresas',
         'all_from_database' => 'Todas as empresas do banco de dados',
     ],

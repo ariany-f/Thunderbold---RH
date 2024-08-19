@@ -17,8 +17,8 @@ class Matrix extends Model
         'name'
     ];
 
-    public function team(): HasMany
+    public function teams(): HasMany
     {
-        return $this->hasMeny(Team::class);
+        return $this->hasMany(Team::class);
     }
 }

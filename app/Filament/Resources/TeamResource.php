@@ -23,7 +23,7 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
 
     public static function getNavigationLabel(): string
     {
@@ -79,6 +79,15 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('custom.fields.name'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('cnpj')
+                    ->label('CNPJ')
+                    ->getStateUsing(fn ($record) => $record->cnpj ? $record->cnpj : '<span style="color: lightgrey">Sem CNPJ</span>')
+                    ->formatStateUsing(fn($state) => $state ?: '<span style="color: lightgrey">Sem CNPJ</span>')
+                    ->html(),
                 TextColumn::make('matrix_name')
                 ->label(ucwords(trans_choice('custom.matrix.label', 1)))
                 ->sortable()
@@ -90,11 +99,6 @@ class TeamResource extends Resource
                     }
                 })
                 ->html(),
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cnpj')
-                    ->label('CNPJ'),
             ])
             ->filters([
                 //

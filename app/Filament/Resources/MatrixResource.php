@@ -3,7 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MatrixResource\Pages;
-use App\Filament\Resources\MatrixResource\RelationManagers;
+use App\Filament\Resources\MatrixResources\RelationManagers;
+use App\Filament\Resources\MatrixResources\RelationManagers\TeamsRelationManager;
 use App\Models\Matrix;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,7 +20,7 @@ class MatrixResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
 
     public static function getNavigationLabel(): string
     {
@@ -82,7 +83,7 @@ class MatrixResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TeamsRelationManager::class,
         ];
     }
 

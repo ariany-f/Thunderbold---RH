@@ -48,7 +48,7 @@ class UsersRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
                 Action::make('associate')
-                    ->label('Associate existing user')
+                    ->label(__('custom.user.associateexisting'))
                     ->action(function (array $data) {
                         $this->ownerRecord->members()->attach($data['user_id']);
                     })

@@ -27,7 +27,7 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationGroup(): string
     {
@@ -77,9 +77,13 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('custom.fields.name'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('employees_count')->counts('employees'),
+                Tables\Columns\TextColumn::make('employees_count')
+                    ->label(ucwords(trans_choice('custom.employee.label', 2)))
+                    ->counts('employees'),
                 Tables\Columns\TextColumn::make('team.name')
+                    ->label(ucwords(trans_choice('custom.team.label', 1)))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
