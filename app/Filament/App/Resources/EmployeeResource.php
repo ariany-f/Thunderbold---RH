@@ -101,12 +101,12 @@ class EmployeeResource extends Resource
                             ->label('Manager')
                             ->options(function (callable $get) {
                                 $teamId = $get('team_id');
-                        
+                                $employeeId = request()->route('record');
                                 if (!$teamId) {
                                     return [];
                                 }
                         
-                                $employees = Employee::where('team_id', $teamId)->get();
+                                $employees = Employee::where('team_id', $teamId)->where('id', '!=', $employeeId)->get();
                                 return $employees->pluck('full_name', 'id');
                             })
                             ->placeholder('No manager')
