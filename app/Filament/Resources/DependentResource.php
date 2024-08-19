@@ -66,17 +66,17 @@ class DependentResource extends Resource
                     ->preload()
                     ->required(),
                 TextInput::make('first_name')
-                    ->label('First Name')
+                    ->label(__('custom.fields.first_name'))
                     ->required()
                     ->maxLength(255),
 
                 TextInput::make('last_name')
-                    ->label('Last Name')
+                    ->label(__('custom.fields.last_name'))
                     ->required()
                     ->maxLength(255),
 
                 Select::make('relationship')
-                    ->label('Relationship')
+                    ->label(__('custom.fields.relationship'))
                     ->options([
                         'spouse' => 'Spouse',
                         'child' => 'Child',
@@ -86,7 +86,7 @@ class DependentResource extends Resource
                     ])
                     ->required(),
                 DatePicker::make('date_of_birth')
-                    ->label('Date of Birth')
+                    ->label(__('custom.fields.date_of_birth'))
                     ->required()
                     ->displayFormat('d/m/Y')
                     ->maxDate(now()),

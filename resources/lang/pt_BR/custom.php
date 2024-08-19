@@ -24,6 +24,7 @@ return [
         'updated_at' => 'Atualizado em',
         'address' => 'Endereço',
         'zip_code' => 'CEP',
+        'relationship'  => 'Parentesco',
     ],
     'payslip' => [
         'label' => 'holerite|holerites',
