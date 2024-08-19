@@ -37,6 +37,9 @@ return [
         'label' => 'departamento|departamentos',
         'filter' => 'Filtrar por departamento'
     ],
+    'manager' => [
+        'label' => 'gestor|gestores',
+    ],
     'dependent' => [
         'label' => 'dependente|dependentes',
         'labelof' => 'dependente de |dependentes de ',

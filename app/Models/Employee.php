@@ -14,6 +14,8 @@ class Employee extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['subordinates_count'];
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
@@ -65,6 +67,11 @@ class Employee extends Model
     public function subordinates(): HasMany
     {
         return $this->hasMany(Employee::class, 'manager_id');
+    }
+
+    public function getSubordinatesCountAttribute()
+    {
+        return $this->subordinates()->count();
     }
 
     protected static function boot()

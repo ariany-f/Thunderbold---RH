@@ -98,7 +98,7 @@ class EmployeeResource extends Resource
                                 $set('manager_id', null);
                             }),
                         Select::make('manager_id')
-                            ->label('Manager')
+                            ->label(ucwords(trans_choice('custom.manager.label', 1)))
                             ->options(function (callable $get) {
                                 $teamId = $get('team_id');
                                 $employeeId = request()->route('record');
@@ -109,7 +109,7 @@ class EmployeeResource extends Resource
                                 $employees = Employee::where('team_id', $teamId)->where('id', '!=', $employeeId)->get();
                                 return $employees->pluck('full_name', 'id');
                             })
-                            ->placeholder('No manager')
+                            ->placeholder('Sem ' . ucwords(trans_choice('custom.manager.label', 1)))
                             ->nullable(),
                     ])->columns(2),
                 Forms\Components\Section::make('User Name')
@@ -168,6 +168,12 @@ class EmployeeResource extends Resource
                     ->label(ucwords(__('custom.fields.full_name')))
                     ->sortable()
                     ->searchable(['first_name', 'last_name']),
+                Tables\Columns\BadgeColumn::make('subordinates_count')
+                    ->label('Tipo')
+                    ->color(fn ($state) => $state > 0 ? 'warning' : 'primary')
+                    ->formatStateUsing(function ($state) {
+                        return $state > 0 ? ucwords(trans_choice('custom.manager.label', 1)) : ucwords(trans_choice('custom.employee.label', 1));
+                    }),
                 Tables\Columns\TextColumn::make('address')
                     ->label(ucwords(__('custom.fields.address')))
                     ->searchable()

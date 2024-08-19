@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('address');
-            $table->char('zip_code');
+            $table->string('address')->nullable();
+            $table->char('zip_code')->nullable();
             $table->date('date_of_birth');
             $table->date('date_hired');
             $table->timestamps();
