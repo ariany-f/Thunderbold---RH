@@ -32,6 +32,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->login()
             ->registration()
+            ->sidebarCollapsibleOnDesktop()
             ->profile()
             ->userMenuItems([
                 MenuItem::make()

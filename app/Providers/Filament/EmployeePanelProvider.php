@@ -27,6 +27,7 @@ class EmployeePanelProvider extends PanelProvider
         return $panel
             ->id('employee')
             ->path('employee')
+            ->sidebarCollapsibleOnDesktop()
             ->profile()
             ->colors([
                 'danger' => Color::Red,

@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Slate,
