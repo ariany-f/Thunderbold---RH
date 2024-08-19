@@ -6,6 +6,8 @@ use App\Filament\App\Resources\EmployeeResource\Pages;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers;
 use App\Models\City;
 use App\Models\Employee;
+use App\Models\User;
+use App\Models\Team;
 use App\Models\State;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -15,6 +17,7 @@ use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -87,6 +90,27 @@ class EmployeeResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
+                        Select::make('team_id')
+                            ->label('Team')
+                            ->options(Team::all()->pluck('name', 'id'))
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $set('manager_id', null);
+                            }),
+                        Select::make('manager_id')
+                            ->label('Manager')
+                            ->options(function (callable $get) {
+                                $teamId = $get('team_id');
+                        
+                                if (!$teamId) {
+                                    return [];
+                                }
+                        
+                                $employees = Employee::where('team_id', $teamId)->get();
+                                return $employees->pluck('full_name', 'id');
+                            })
+                            ->placeholder('No manager')
+                            ->nullable(),
                     ])->columns(2),
                 Forms\Components\Section::make('User Name')
                     ->description('Put the user name details in.')
@@ -117,10 +141,8 @@ class EmployeeResource extends Resource
                 Forms\Components\Section::make('User address')
                     ->schema([
                         Forms\Components\TextInput::make('address')
-                            ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('zip_code')
-                            ->required()
                             ->maxLength(255),
                     ])->columns(2),
                 Forms\Components\Section::make('Dates')
@@ -205,30 +227,29 @@ class EmployeeResource extends Resource
                 Section::make('Relationships')
                     ->schema([
                         TextEntry::make('country.name'),
-                        TextEntry::make(
-                            'state.name'
-                        ),
-                        TextEntry::make(
-                            'city.name'
-                        ),
+                        TextEntry::make('state.name'),
+                        TextEntry::make('city.name'),
                         TextEntry::make('department.name'),
                     ])->columns(2),
                 Section::make('Name')
                     ->schema([
                         TextEntry::make('first_name'),
-                        TextEntry::make(
-                            'last_name'
-                        ),
+                        TextEntry::make('last_name'),
                     ])->columns(3),
                 Section::make('Address')
                     ->schema([
                         TextEntry::make('address'),
-                        TextEntry::make(
-                            'zip_code'
-                        ),
-                    ])->columns(2)
+                        TextEntry::make('zip_code'),
+                    ])->columns(2),
+                Section::make('Manager') // Nova seção para o gerente
+                    ->schema([
+                        TextEntry::make('manager.full_name') // Exibindo o nome do gerente
+                            ->label('Manager')
+                            ->default('No manager assigned') // Valor padrão se não houver gerente
+                    ])->columns(2),
             ]);
     }
+    
 
     public static function getRelations(): array
     {

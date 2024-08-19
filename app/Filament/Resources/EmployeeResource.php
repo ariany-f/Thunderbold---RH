@@ -6,6 +6,8 @@ use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Models\City;
 use App\Models\Employee;
+use App\Models\User;
+use App\Models\Team;
 use App\Models\State;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -17,6 +19,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Enums\FiltersLayout;
@@ -123,11 +126,27 @@ class EmployeeResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
-                        Forms\Components\Select::make('team_id')
-                            ->relationship(name: 'team', titleAttribute: 'name')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
+                        Select::make('team_id')
+                            ->label('Team')
+                            ->options(Team::all()->pluck('name', 'id'))
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $set('manager_id', null);
+                            }),
+                        Select::make('manager_id')
+                            ->label('Manager')
+                            ->options(function (callable $get) {
+                                $teamId = $get('team_id');
+                        
+                                if (!$teamId) {
+                                    return [];
+                                }
+                        
+                                $employees = Employee::where('team_id', $teamId)->get();
+                                return $employees->pluck('full_name', 'id');
+                            })
+                            ->placeholder('No manager')
+                            ->nullable(),
                     ])->columns(2),
                 Forms\Components\Section::make('User Name')
                     ->description('Put the user name details in.')

@@ -43,6 +43,9 @@ return [
         'management' => 'Gerenciamento de Dependente|Gerenciamento de Dependentes',
         'all_from_database' => 'Todos os dependentes do banco de dados'
     ],
+    'my_team' => [
+        'label' => 'time|times',
+    ],
     'employee' => [
         'label' => 'funcionário|funcionários',
         'management' => 'Gerenciamento de Funcionário|Gerenciamento de Funcionários',
