@@ -180,7 +180,7 @@ class EmployeeResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Action::make('viewDependents')
-                    ->label('View Dependents')
+                    ->label(ucwords(trans_choice('custom.dependent.label', 2)))
                     ->icon('heroicon-o-users')
                     ->url(fn($record) => route('employees.dependents', [
                         'employee' => $record->id, 
