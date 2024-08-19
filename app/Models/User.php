@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Filament\Models\Contracts\HasAvatar;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasTenants
+class User extends Authenticatable implements HasTenants, HasAvatar
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -53,6 +54,11 @@ class User extends Authenticatable implements HasTenants
         'password' => 'hashed',
         'is_admin' => 'boolean',
     ];
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return ($this->avatar) ? asset('storage/' . $this->avatar) : '';
+    }
 
     public function getTenants(Panel $panel): Collection
     {
