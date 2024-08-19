@@ -29,14 +29,14 @@ class PaySlipResource extends Resource
 {
     protected static ?string $model = PaySlip::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     // Use the relationship to determine the tenant context
     protected static ?string $tenantOwnershipRelationshipName = 'employee';
 
     public static function getNavigationLabel(): string
     {
-        return trans_choice('custom.payslip.label', 2);
+        return ucwords(trans_choice('custom.payslip.label', 2));
     }
 
     public static function getModelLabel(): string
@@ -132,9 +132,6 @@ class PaySlipResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee_name')
-                    ->label(ucwords(trans_choice('custom.employee.label', 1)))
-                    ->getStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}"),
                 Tables\Columns\BadgeColumn::make('reference')
                     ->label('Ref.')
                     ->colors([

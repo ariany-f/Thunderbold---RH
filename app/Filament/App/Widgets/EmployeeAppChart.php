@@ -10,11 +10,14 @@ use Flowframe\Trend\TrendValue;
 
 class EmployeeAppChart extends ChartWidget
 {
-    protected static ?string $heading = 'Employees Chart';
-
     protected static ?int $sort = 3;
 
     protected static string $color = 'warning';
+
+    public function getHeading(): string
+    {
+        return ucwords(trans_choice('custom.employee.chart', 2));
+    }
 
     protected function getData(): array
     {

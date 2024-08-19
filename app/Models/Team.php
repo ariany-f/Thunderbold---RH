@@ -29,9 +29,15 @@ class Team extends Model
         return $this->belongsToMany(User::class);
     }
 
-     // Definição do relacionamento com PaySlip
-     public function paySlips(): HasManyThrough
-     {
-         return $this->hasManyThrough(PaySlip::class, Employee::class, 'team_id', 'employee_id');
-     }
+    // Definição do relacionamento com PaySlip
+    public function paySlips(): HasManyThrough
+    {
+        return $this->hasManyThrough(PaySlip::class, Employee::class, 'team_id', 'employee_id');
+    }
+
+    // Definição do relacionamento com dependents
+    public function dependents(): HasManyThrough
+    {
+        return $this->hasManyThrough(Dependent::class, Employee::class, 'team_id', 'employee_id');
+    }
 }

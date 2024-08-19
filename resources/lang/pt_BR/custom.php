@@ -13,12 +13,17 @@ return [
     'fields' => [
         'first_name' => 'Nome',
         'last_name' => 'Sobrenome',
+        'full_name' => 'Nome',
         'email' => 'E-mail',
         'date_hired' => 'Data de Contratação',
         'date_of_birth' => 'Data de Nascimento',
         'earnings' => 'Proventos (R$)',
         'deductions' => 'Descontos (R$)',
         'net' => 'Líquido (R$)',
+        'created_at' => 'Criado em',
+        'updated_at' => 'Atualizado em',
+        'address' => 'Endereço',
+        'zip_code' => 'CEP',
     ],
     'payslip' => [
         'label' => 'holerite|holerites',
@@ -27,6 +32,13 @@ return [
     'department' => [
         'label' => 'departamento|departamentos',
         'filter' => 'Filtrar por departamento'
+    ],
+
+    'dependent' => [
+        'label' => 'dependente|dependentes',
+        'labelof' => 'dependente de |dependentes de ',
+        'management' => 'Gerenciamento de Dependente|Gerenciamento de Dependentes',
+        'all_from_database' => 'Todos os dependentes do banco de dados'
     ],
     'employee' => [
         'label' => 'funcionário|funcionários',

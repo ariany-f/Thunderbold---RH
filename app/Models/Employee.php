@@ -47,6 +47,16 @@ class Employee extends Model
         return $this->hasMany(PaySlip::class);
     }
 
+    public function getFullNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
+    }
+    
+    public function dependents(): HasMany
+    {
+        return $this->hasMany(Dependent::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

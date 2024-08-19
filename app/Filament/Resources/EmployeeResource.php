@@ -18,6 +18,7 @@ use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -33,6 +34,8 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'first_name';
 
@@ -180,39 +183,37 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('country.name')
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label(ucwords(__('custom.fields.full_name')))
                     ->sortable()
-                    ->label(ucwords(trans_choice('custom.country.label', 1)))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('first_name')
-                    ->searchable()
-                    ->label(ucwords(__('custom.fields.first_name')))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->label(ucwords(__('custom.fields.last_name')))
-                    ->searchable(),
+                    ->searchable(['first_name', 'last_name']),
                 Tables\Columns\TextColumn::make('address')
+                    ->label(ucwords(__('custom.fields.address')))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('zip_code')
+                    ->label(ucwords(__('custom.fields.zip_code')))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('team.name')
                     ->label(ucwords(trans_choice('custom.team.label', 1)))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
-                    ->date()
+                    ->label(ucwords(__('custom.fields.date_of_birth')))
+                    ->dateTime('d/m/Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date_hired')
                     ->label(ucwords(__('custom.fields.date_hired')))
-                    ->date()
+                    ->dateTime('d/m/Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(ucwords(__('custom.fields.created_at')))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(ucwords(__('custom.fields.updated_at')))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -260,6 +261,10 @@ class EmployeeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Action::make('viewDependents')
+                    ->label('View Dependents')
+                    ->icon('heroicon-o-users')
+                    ->url(fn($record) => route('admin.employees.dependents', $record->id)),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
@@ -332,6 +337,7 @@ class EmployeeResource extends Resource
             'create' => Pages\CreateEmployee::route('/create'),
             //'view' => Pages\ViewEmployee::route('/{record}'),
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
+            'dependents' => Pages\ViewDependents::route('/{record}/dependents'),
         ];
     }
 }

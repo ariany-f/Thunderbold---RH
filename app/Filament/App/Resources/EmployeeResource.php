@@ -12,6 +12,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Tables\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -26,7 +27,7 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
     
     protected static ?int $navigationSort = 2;
 
@@ -141,33 +142,34 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('country.name')
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label(ucwords(__('custom.fields.full_name')))
                     ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('first_name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable(['first_name', 'last_name']),
                 Tables\Columns\TextColumn::make('address')
+                    ->label(ucwords(__('custom.fields.address')))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('zip_code')
-                    ->searchable(),
+                    ->label(ucwords(__('custom.fields.zip_code')))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date_of_birth')
-                    ->date()
+                    ->label(ucwords(__('custom.fields.date_of_birth')))
+                    ->dateTime('d/m/Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date_hired')
-                    ->date()
+                    ->label(ucwords(__('custom.fields.date_hired')))
+                    ->dateTime('d/m/Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(ucwords(__('custom.fields.created_at')))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(ucwords(__('custom.fields.updated_at')))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -177,6 +179,13 @@ class EmployeeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Action::make('viewDependents')
+                    ->label('View Dependents')
+                    ->icon('heroicon-o-users')
+                    ->url(fn($record) => route('employees.dependents', [
+                        'employee' => $record->id, 
+                        'tenant' => Filament::getTenant()->name
+                    ])),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -235,6 +244,7 @@ class EmployeeResource extends Resource
             'create' => Pages\CreateEmployee::route('/create'),
             'view' => Pages\ViewEmployee::route('/{record}'),
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
+            'dependents' => Pages\ViewDependents::route('/{record}/dependents'),
         ];
     }
 }
