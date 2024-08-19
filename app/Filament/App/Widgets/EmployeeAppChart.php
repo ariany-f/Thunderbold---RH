@@ -32,7 +32,7 @@ class EmployeeAppChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Employees',
+                    'label' => ucwords(trans_choice('custom.employee.label', 2)),
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],

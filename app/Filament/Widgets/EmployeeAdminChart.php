@@ -31,7 +31,7 @@ class EmployeeAdminChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => trans_choice('custom.employee.label', 2),
+                    'label' => ucwords(trans_choice('custom.employee.label', 2)),
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],

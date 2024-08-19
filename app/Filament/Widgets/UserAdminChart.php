@@ -29,7 +29,7 @@ class UserAdminChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Users',
+                    'label' => ucwords(trans_choice('custom.user.label', 2)),
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
