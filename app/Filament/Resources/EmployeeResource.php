@@ -221,6 +221,9 @@ class EmployeeResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return $state > 0 ? ucwords(trans_choice('custom.manager.label', 1)) : ucwords(trans_choice('custom.employee.label', 1));
                     }),
+                Tables\Columns\TextColumn::make('manager.full_name')
+                    ->label(ucwords(trans_choice('custom.manager.label', 1)))
+                    ->formatStateUsing(fn ($state) => $state ?? 'Nenhum'),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->label(ucwords(__('custom.fields.date_of_birth')))
                     ->dateTime('d/m/Y')
