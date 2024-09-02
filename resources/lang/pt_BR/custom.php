@@ -11,6 +11,7 @@ return [
         'management' => 'Gerenciamento de Usuário|Gerenciamento de Usuários',
         'all_from_database' => 'Todos os usuários do banco de dados',
     ],
+    'view' => 'visualizar',
     'fields' => [
         'name' => 'Nome',
         'first_name' => 'Nome',

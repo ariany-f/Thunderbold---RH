@@ -16,6 +16,12 @@ use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Card;
+use Filament\Tables\Components\Badge;
+use Illuminate\Support\HtmlString;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -138,6 +144,26 @@ class PaySlipResource extends Resource
 
     public static function table(Table $table): Table
     {
+        // Load month names from translations
+        $monthsInPortuguese = Lang::get('months');
+
+        // Generate month options (1 to 12)
+        $monthOptions = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthOptions[$i] = $monthsInPortuguese[$i];
+        }
+
+        // Generate year options (last 10 years)
+        $yearOptions = [];
+        $currentYear = Carbon::now()->year;
+        for ($i = 0; $i < 10; $i++) {
+            $year = $currentYear - $i;
+            $yearOptions[$year] = $year;
+        }
+
+        // Restore the $now object to its original state
+        $now = Carbon::now();
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee_name')
@@ -176,7 +202,32 @@ class PaySlipResource extends Resource
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.')),
             ])
             ->filters([
-                // Add filters if necessary
+                Tables\Filters\Filter::make('month')
+                ->form([
+                    Select::make('month')
+                        ->label('Mês')
+                        ->options($monthOptions)
+                        ->placeholder('Selecione um mês'),
+                ])
+                ->query(function (Builder $query, array $data) use($monthOptions) {
+                    if (!empty($data['month'])) {
+                        
+                        $monthToQuery = $monthOptions[$data['month']];
+                        $query->where('reference', 'LIKE', $monthToQuery."/%");
+                    }
+                }),
+                Tables\Filters\Filter::make('year')
+                    ->form([
+                        Select::make('year')
+                            ->label('Ano')
+                            ->options($yearOptions)
+                            ->placeholder('Selecione um ano'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if (!empty($data['year'])) {
+                            $query->where('reference', 'LIKE', "%/".$data['year']);
+                        }
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -196,38 +247,54 @@ class PaySlipResource extends Resource
             ]);
     }
 
+  
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->schema([
-                Section::make('Pay Slip Info')
+                Section::make($infolist->record->process)
+                    ->description(new HtmlString('<div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-700">Referencia: </span>
+                        <x-filament::badge color="infdangero">
+                            ' . ($infolist->record->reference ?? 'N/A') . '
+                        </x-filament::badge>
+                    </div>'))
                     ->schema([
-                        TextEntry::make('employee.first_name')
-                            ->label('Employee'),
-                        TextEntry::make('reference'),
-                        TextEntry::make('process'),
-                        TextEntry::make('earnings')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.earnings')),
-                        TextEntry::make('deductions')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.deductions')),
-                        TextEntry::make('net')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.net')),
-                        TextEntry::make('inss_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('INSS Base (R$)'),
-                        TextEntry::make('irrf_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('IRRF Base (R$)'),
-                        TextEntry::make('fgts_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('FGTS Base (R$)'),
-                        TextEntry::make('fgts_deposited')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('FGTS Deposited (R$)'),
-                    ])->columns(2)
+                        Tabs::make('Tabs')
+                            ->tabs([
+                                Tabs\Tab::make(ucwords(trans_choice('custom.employee.label', 1)))
+                                    ->schema([
+                                        TextEntry::make('employee.fullname')
+                                            ->label(ucwords(__('custom.fields.full_name')))
+                                            ->columnSpan(2),
+                                    ]),
+                                Tabs\Tab::make(ucwords(trans_choice('custom.payslip.label', 1)))
+                                    ->schema([
+                                        TextEntry::make('earnings')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.earnings')),
+                                        TextEntry::make('deductions')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.deductions')),
+                                        TextEntry::make('net')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.net')),
+                                        TextEntry::make('inss_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('INSS Base (R$)'),
+                                        TextEntry::make('irrf_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('IRRF Base (R$)'),
+                                        TextEntry::make('fgts_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('FGTS Base (R$)'),
+                                        TextEntry::make('fgts_deposited')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('FGTS Deposited (R$)'),
+                                    ])
+                                    ->columns(3),
+                            ]),
+                    ]),
             ]);
     }
 

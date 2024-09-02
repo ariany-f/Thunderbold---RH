@@ -101,6 +101,9 @@ class DependentResource extends Resource
                     ->label(ucwords(trans_choice('custom.employee.label', 1)))
                     ->getStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}")
                     ->toggleable(isToggledHiddenByDefault: isset(request()->route()->parameters()['record']) ? true : false),
+                Tables\Columns\TextColumn::make('employee.team.name')
+                    ->label(ucwords(trans_choice('custom.team.label', 1)))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('full_name')
                     ->label(ucwords(__('custom.fields.full_name')))
                     ->sortable()

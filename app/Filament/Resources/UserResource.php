@@ -94,8 +94,7 @@ class UserResource extends Resource
                     ->searchable()
                     ->label(ucwords(trans_choice('custom.team.label', 2)))
                     ->preload()
-                    ->live()
-                    ->required(),
+                    ->live(),
                 FileUpload::make('avatar')
                     ->label('Avatar')
                     ->image() // Opcional: para permitir apenas imagens

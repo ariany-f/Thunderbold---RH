@@ -20,6 +20,8 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
+use Filament\Infolists\Components\Tabs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
@@ -184,38 +186,54 @@ class PaySlipResource extends Resource
             ]);
     }
 
+  
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->schema([
-                Section::make('Pay Slip Info')
+                Section::make($infolist->record->process)
+                    ->description(new HtmlString('<div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-700">Referencia: </span>
+                        <x-filament::badge color="infdangero">
+                            ' . ($infolist->record->reference ?? 'N/A') . '
+                        </x-filament::badge>
+                    </div>'))
                     ->schema([
-                        TextEntry::make('employee.first_name')
-                            ->label('Employee'),
-                        TextEntry::make('reference'),
-                        TextEntry::make('process'),
-                        TextEntry::make('earnings')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.earnings')),
-                        TextEntry::make('deductions')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.deductions')),
-                        TextEntry::make('net')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label(__('custom.fields.net')),
-                        TextEntry::make('inss_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('INSS Base (R$)'),
-                        TextEntry::make('irrf_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('IRRF Base (R$)'),
-                        TextEntry::make('fgts_base')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('FGTS Base (R$)'),
-                        TextEntry::make('fgts_deposited')
-                            ->formatStateUsing(fn ($state) => number_format($state, 2, ',', '.'))
-                            ->label('FGTS Deposited (R$)'),
-                    ])->columns(2)
+                        Tabs::make('Tabs')
+                            ->tabs([
+                                Tabs\Tab::make(ucwords(trans_choice('custom.employee.label', 1)))
+                                    ->schema([
+                                        TextEntry::make('employee.fullname')
+                                            ->label(ucwords(__('custom.fields.full_name')))
+                                            ->columnSpan(2),
+                                    ]),
+                                Tabs\Tab::make(ucwords(trans_choice('custom.payslip.label', 1)))
+                                    ->schema([
+                                        TextEntry::make('earnings')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.earnings')),
+                                        TextEntry::make('deductions')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.deductions')),
+                                        TextEntry::make('net')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label(__('custom.fields.net')),
+                                        TextEntry::make('inss_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('INSS Base (R$)'),
+                                        TextEntry::make('irrf_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('IRRF Base (R$)'),
+                                        TextEntry::make('fgts_base')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('FGTS Base (R$)'),
+                                        TextEntry::make('fgts_deposited')
+                                            ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
+                                            ->label('FGTS Deposited (R$)'),
+                                    ])
+                                    ->columns(3),
+                            ]),
+                    ]),
             ]);
     }
 
