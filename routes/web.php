@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaySlipController;
+use App\Http\Controllers\Controller;
 use App\Filament\Resources\EmployeeResource\Pages\ViewDependents;
 use App\Filament\Resources\DependentResource\Pages\CreateDependent;
 
@@ -17,9 +18,7 @@ use App\Filament\Resources\DependentResource\Pages\CreateDependent;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',  [Controller::class, 'index']);
 
 Route::get('payslips/{id}/download', [PaySlipController::class, 'downloadPdf'])->name('payslips.downloadPdf');
 
