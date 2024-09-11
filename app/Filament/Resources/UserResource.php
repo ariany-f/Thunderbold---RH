@@ -76,7 +76,7 @@ class UserResource extends Resource
                     ->searchable()
                     ->preload()
                     ->live()
-                    ->label(ucwords(trans_choice('custom.matrix.label', 1)))
+                    ->label(ucwords(trans_choice('custom.matrix.management', 1)))
                     ->afterStateUpdated(function ($state, callable $set) {
                         if($state == null) 
                         {
@@ -92,7 +92,7 @@ class UserResource extends Resource
                         ->where('matrix_id', $get('matrix_id'))
                         ->pluck('name', 'id'))
                     ->searchable()
-                    ->label(ucwords(trans_choice('custom.team.label', 2)))
+                    ->label(ucwords(trans_choice('custom.team.management', 2)))
                     ->preload()
                     ->live(),
                 FileUpload::make('avatar')

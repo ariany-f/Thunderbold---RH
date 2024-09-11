@@ -12,12 +12,25 @@ return [
         'all_from_database' => 'Todos os usuários do banco de dados',
     ],
     'view' => 'visualizar',
+    'relationship' => [
+        'label' => 'relacionamento|relacionamentos'
+    ],
     'fields' => [
+        'bank' => [
+            'label' => 'banco|bancos',
+            'account' => 'Conta Bancária',
+            'agency' => 'agência|agências',
+            'account_number' => 'número da conta|números da conta',
+            'salary_base' => 'salário base|salários base',
+        ],
         'name' => 'Nome',
         'first_name' => 'Nome',
         'last_name' => 'Sobrenome',
         'full_name' => 'Nome',
         'email' => 'E-mail',
+        'phone' => 'Telefone',
+        'mobile' => 'Celular',
+        'dates' => 'Datas',
         'date_hired' => 'Data de Contratação',
         'date_of_birth' => 'Data de Nascimento',
         'earnings' => 'Proventos (R$)',
@@ -65,10 +78,12 @@ return [
         ],
         'associateexisting' => 'Associar empresa existente',
         'label' => 'empresa|empresas',
+        'management' => 'Empresa que gerencia|Empresas que gerencia',
         'all_from_database' => 'Todas as empresas do banco de dados',
     ],
     'matrix' => [
         'label' => 'grupo econômico|grupos econômicos',
+        'management' => 'Grupo Econômico que gerencia|Grupos Econômicos que gerencia',
         'all_from_database' => 'Todos os grupos econômicos do banco de dados',
     ],
     'city' => [
