@@ -60,7 +60,7 @@ class ChecklistItemResource extends Resource
                 // Adicione filtros se necessário
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(), // Adicione a ação de exclusão individual
             ])
             ->bulkActions([
