@@ -44,8 +44,17 @@ class ChecklistItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\BooleanColumn::make('completed')
-                    ->label('Completed'),
+                Tables\Columns\ToggleColumn::make('completed')
+                    ->label('Completed')  
+                    ->beforeStateUpdated(function ($record, $state) {
+                        // Runs before the state is saved to the database.
+                    })
+                    ->afterStateUpdated(function ($record, $state) {
+                        return redirect()->route('checklists.checklist-items', [
+                            'checklist' => $record->checklist_id, // Passando o parâmetro do checklist
+                            'tenant' => Filament::getTenant()->name,
+                        ]);
+                    }),
             ])
             ->filters([
                 // Adicione filtros se necessário
