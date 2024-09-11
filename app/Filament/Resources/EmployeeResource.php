@@ -328,24 +328,20 @@ class EmployeeResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('Relationships')
+                Section::make(ucwords(trans_choice('custom.relationship.label', 2)))
                     ->schema([
-                        TextEntry::make('country.name'),
-                        TextEntry::make(
-                            'state.name'
-                        ),
-                        TextEntry::make(
-                            'city.name'
-                        ),
-                        TextEntry::make('department.name'),
-                        TextEntry::make('team.name'),
+                        TextEntry::make('country.name')->label(ucwords(trans_choice('custom.country.label', 1))),
+                        TextEntry::make('state.name')->label(ucwords(trans_choice('custom.state.label', 1))),
+                        TextEntry::make('city.name')->label(ucwords(trans_choice('custom.city.label', 1))),
+                        TextEntry::make('department.name')->label(ucwords(trans_choice('custom.department.label', 1))),
+                        TextEntry::make('team.name')->label(ucwords(trans_choice('custom.team.label', 1))),
                     ])->columns(2),
-                Section::make('Name')
+                Section::make(ucwords(__('custom.fields.name')))
                     ->schema([
-                        TextEntry::make('first_name'),
+                        TextEntry::make('first_name')->label(ucwords(__('custom.fields.first_name'))),
                         TextEntry::make(
                             'last_name'
-                        ),
+                        )->label(ucwords(__('custom.fields.last_name'))),
                     ])->columns(3),
                 Section::make('Email')
                     ->schema([
@@ -353,12 +349,12 @@ class EmployeeResource extends Resource
                             'email'
                         ),
                     ])->columns(1),
-                Section::make('Address')
+                Section::make(ucwords(__('custom.fields.address')))
                     ->schema([
-                        TextEntry::make('address'),
+                        TextEntry::make('address')->label(ucwords(__('custom.fields.address'))),
                         TextEntry::make(
                             'zip_code'
-                        ),
+                        )->label(ucwords(__('custom.fields.zip_code'))),
                     ])->columns(2)
             ]);
     }
