@@ -43,6 +43,16 @@ return [
         'relationship'  => 'Parentesco',
         'password' => 'Senha',
     ],
+    'checklist' => [
+        'label' => 'checklist|checklists',
+        'management' => 'Gerenciamento de Checklist|Gerenciamento de Checklists',
+        'all_from_database' => 'Todos os checklists do banco de dados',
+    ],
+    'item' => [
+        'label' => 'item|itens',
+        'management' => 'Gerenciamento de Item|Gerenciamento de Itens',
+        'all_from_database' => 'Todos os itens do banco de dados',
+    ],
     'payslip' => [
         'label' => 'holerite|holerites',
         'details' => 'Detalhes do Holerite',

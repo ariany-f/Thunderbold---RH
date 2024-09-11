@@ -42,7 +42,12 @@ class Employee extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
-    }  
+    } 
+
+    public function checklists()
+    {
+        return $this->morphMany(Checklist::class, 'related_model');
+    }
     
     public function paySlips(): hasMany
     {

@@ -58,4 +58,15 @@ class Team extends Model
     {
         return $this->belongsTo(Matrix::class);
     }
+    
+    public function checklists()
+    {
+        return $this->hasMany(Checklist::class);
+    }
+
+    // Definição do relacionamento com items de checklist
+    public function checklistItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(ChecklistItem::class, Checklist::class, 'team_id', 'checklist_id');
+    }
 }
