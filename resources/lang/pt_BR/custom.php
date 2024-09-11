@@ -68,8 +68,8 @@ return [
         'all_from_database' => 'Todas as empresas do banco de dados',
     ],
     'matrix' => [
-        'label' => 'matriz|matrizes',
-        'all_from_database' => 'Todas as matrizes do banco de dados',
+        'label' => 'grupo econômico|grupos econômicos',
+        'all_from_database' => 'Todos os grupos econômicos do banco de dados',
     ],
     'city' => [
         'label' => 'cidade|cidades'
