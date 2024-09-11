@@ -41,7 +41,12 @@ class TeamsRelationManager extends RelationManager
                 Action::make('associate')
                     ->label(__('custom.team.associateexisting'))
                     ->action(function (array $data) {
-                        $this->ownerRecord->teams()->attach($data['team_id']);
+                        // Associar o Team selecionado à Matrix
+                        $team = Team::find($data['team_id']);
+                        if ($team) {
+                            $team->matrix_id = $this->ownerRecord->id; // Associe a Matrix ao Team
+                            $team->save(); // Salve a alteração
+                        }
                     })
                     ->form(function () {
                         // Obtém IDs dos users já vinculados
