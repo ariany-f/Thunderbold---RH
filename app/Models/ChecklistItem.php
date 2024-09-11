@@ -13,6 +13,6 @@ class ChecklistItem extends Model
 
     public function checklist()
     {
-        return $this->belongsTo(Checklist::class);
+        return $this->belongsTo(Checklist::class, 'checklist_id');
     }
 }
